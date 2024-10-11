@@ -3,7 +3,12 @@
 
 	<Product Id="*" Name="OSK Mover Tray App" Language="1033" Version="1.0.0.0" Manufacturer="The Watering Can" UpgradeCode="BD8302DA-846E-47EA-97C2-E1B036306BB3">
 		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
-
+		
+		<!-- Prevent installation if the product is already installed -->
+		<Condition Message="OSK Mover Tray App is already installed.">
+			(NOT Installed) OR (REMOVE="ALL")
+		</Condition>
+		
 		<!-- Define the media used for the installer -->
 		<Media Id="1" Cabinet="cab1.cab" EmbedCab="yes" />
 
