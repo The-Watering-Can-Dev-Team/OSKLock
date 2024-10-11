@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSKLock", "OSKLock\OSKLock.csproj", "{D898A230-D9E1-4500-89EF-C2BD4A8AC889}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSKTrayApp", "OSKTrayApp\OSKTrayApp.csproj", "{5B321826-1565-4EAE-9D19-4CD7921F9F1D}"
 EndProject
-Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "OSKLockSetup", "OSKLockSetup\OSKLockSetup.wixproj", "{49218F27-AE0B-43E7-82DD-FC1F2C452705}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "OSKLockSetup", "OSKLockSetup\OSKLockSetup.wixproj", "{49218F27-AE0B-43E7-82DD-FC1F2C452705}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,14 +15,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D898A230-D9E1-4500-89EF-C2BD4A8AC889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D898A230-D9E1-4500-89EF-C2BD4A8AC889}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D898A230-D9E1-4500-89EF-C2BD4A8AC889}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D898A230-D9E1-4500-89EF-C2BD4A8AC889}.Debug|x86.Build.0 = Debug|Any CPU
-		{D898A230-D9E1-4500-89EF-C2BD4A8AC889}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D898A230-D9E1-4500-89EF-C2BD4A8AC889}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D898A230-D9E1-4500-89EF-C2BD4A8AC889}.Release|x86.ActiveCfg = Release|Any CPU
-		{D898A230-D9E1-4500-89EF-C2BD4A8AC889}.Release|x86.Build.0 = Release|Any CPU
 		{5B321826-1565-4EAE-9D19-4CD7921F9F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5B321826-1565-4EAE-9D19-4CD7921F9F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B321826-1565-4EAE-9D19-4CD7921F9F1D}.Debug|x86.ActiveCfg = Debug|Any CPU
