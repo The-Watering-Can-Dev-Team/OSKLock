@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-	<Product Id="*" Name="OSK Mover Tray App" Language="1033" Version="1.0.0.0" Manufacturer="The Watering Can" UpgradeCode="BD8302DA-846E-47EA-97C2-E1B036306BB3">
+	<Product Id="*" Name="OSK Mover Tray App" Language="1033" Version="1.0.0.4" Manufacturer="The Watering Can" UpgradeCode="BD8302DA-846E-47EA-97C2-E1B036306BB3">
 		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine"
 			Comments="OSK Mover Tray App" Manufacturer="The Watering Can"
 			Description="This is a utility to move (lock) the on-screen keyboard window."
 			InstallPrivileges="elevated" />
 		
+		<!-- Major Upgrade to uninstall the old version when a new one is installed -->
+		<MajorUpgrade
+		  AllowDowngrades="no"
+		  DowngradeErrorMessage="A newer version of OSK Mover Tray App is already installed."
+		  Schedule="afterInstallInitialize"
+		  RemoveFeatures="ALL" />
+
+		<!-- Minor upgrade configuration to update within the same version family -->
+		<Upgrade Id="BD8302DA-846E-47EA-97C2-E1B036306BB3">
+			<UpgradeVersion OnlyDetect="no" Property="PREVIOUSFOUND"
+							Minimum="1.0.0.0" IncludeMinimum="yes"
+							Maximum="2.0.0.0" IncludeMaximum="no" />
+			<!-- Set "PREVIOUSFOUND" if a previous version is detected -->
+		</Upgrade>
+
 		<!-- Provide the manufacturer information in the summary -->
 		<Property Id="ARPCONTACT">itsupport@thewateringcan.ca</Property>
 		<Property Id="ARPCOMMENTS">Utility to move the on-screen keyboard</Property>
@@ -64,10 +79,19 @@
 					  Return="ignore"
 					  Impersonate="no" />
 
+		<CustomAction Id="KillTrayApp"
+              Directory="SystemFolder"
+              ExeCommand='taskkill /F /IM "OSKTrayApp.exe" /T'
+              Execute="deferred"
+              Return="ignore"
+              Impersonate="no" />
+
 		<!-- Define when to create and delete the task -->
 		<InstallExecuteSequence>
 			<Custom Action="CreateTaskSchedulerTask" After="InstallFiles">NOT Installed</Custom>
 			<Custom Action="RunTaskOnce" After="CreateTaskSchedulerTask">NOT Installed</Custom>
+			<!-- Custom action for killing the tray app during uninstall -->
+			<Custom Action="KillTrayApp" Before="RemoveFiles">Installed</Custom>
 			<Custom Action="DeleteTaskSchedulerTask" Before="RemoveFiles">Installed</Custom>
 		</InstallExecuteSequence>
 
