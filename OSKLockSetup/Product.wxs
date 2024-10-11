@@ -2,7 +2,16 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
 	<Product Id="*" Name="OSK Mover Tray App" Language="1033" Version="1.0.0.0" Manufacturer="The Watering Can" UpgradeCode="BD8302DA-846E-47EA-97C2-E1B036306BB3">
-		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine"
+			Comments="OSK Mover Tray App" Manufacturer="The Watering Can"
+			Description="This is a utility to move (lock) the on-screen keyboard window."
+			InstallPrivileges="elevated" />
+		
+		<!-- Provide the manufacturer information in the summary -->
+		<Property Id="ARPCONTACT">itsupport@thewateringcan.ca</Property>
+		<Property Id="ARPCOMMENTS">Utility to move the on-screen keyboard</Property>
+		<Property Id="ARPURLINFOABOUT">https://thewateringcan.ca</Property>
+		<Property Id="ARPURLUPDATEINFO">https://github.com/The-Watering-Can-Dev-Team/OSKLock/releases</Property>
 		
 		<!-- Prevent installation if the product is already installed -->
 		<Condition Message="OSK Mover Tray App is already installed.">
