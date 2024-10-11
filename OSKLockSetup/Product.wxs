@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<Product Id="*" Name="OSK Mover Tray App" Language="1033" Version="1.0.0.0" Manufacturer="The Watering Can" UpgradeCode="BD8302DA-846E-47EA-97C2-E1B036306BB3">
+		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+
+		<!-- Define the media used for the installer -->
+		<Media Id="1" Cabinet="cab1.cab" EmbedCab="yes" />
+
+		<!-- Installation directory -->
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="OSK Mover Tray App">
+
+					<!-- Application executable -->
+					<Component Id="MainApplicationComponent" Guid="*">
+						<File Id="OSKTrayAppFile" Source="$(var.OSKTrayApp.TargetDir)OSKTrayApp.exe" KeyPath="yes" />
+					</Component>
+
+				</Directory>
+			</Directory>
+			<Directory Id="SystemFolder" Name="System32" />
+		</Directory>
+
+		<!-- Feature to install components -->
+		<Feature Id="MainFeature" Title="OSK Mover Tray App" Level="1">
+			<ComponentRef Id="MainApplicationComponent" />
+		</Feature>
+
+		<!-- Create the scheduled task -->
+		<CustomAction Id="CreateTaskSchedulerTask"
+				  Directory="SystemFolder"
+				  ExeCommand='schtasks /Create /TN "OSKTrayApp" /TR "\"[INSTALLFOLDER]OSKTrayApp.exe\"" /SC ONLOGON /RL HIGHEST /F /RU "Users" /IT'
+				  Execute="deferred"
+				  Return="check"
+				  Impersonate="no" />
+		
+		<CustomAction Id="RunTaskOnce"
+					  Directory="SystemFolder"
+					  ExeCommand='schtasks /Run /TN "OSKTrayApp"'
+					  Execute="deferred"
+					  Return="check"
+					  Impersonate="no" />
+
+		<!-- Delete the scheduled task during uninstall -->
+		<CustomAction Id="DeleteTaskSchedulerTask"
+					  Directory="SystemFolder"
+					  ExeCommand='schtasks /Delete /TN "OSKTrayApp" /F'
+					  Execute="deferred"
+					  Return="ignore"
+					  Impersonate="no" />
+
+		<!-- Define when to create and delete the task -->
+		<InstallExecuteSequence>
+			<Custom Action="CreateTaskSchedulerTask" After="InstallFiles">NOT Installed</Custom>
+			<Custom Action="RunTaskOnce" After="CreateTaskSchedulerTask">NOT Installed</Custom>
+			<Custom Action="DeleteTaskSchedulerTask" Before="RemoveFiles">Installed</Custom>
+		</InstallExecuteSequence>
+
+	</Product>
+</Wix>
