@@ -17,9 +17,11 @@ namespace OSKTrayApp
 
         private const uint SWP_NOZORDER = 0x0004; // Flag to ignore Z-order
         private const uint SWP_NOACTIVATE = 0x0010; // Flag to prevent activation
+        private const uint SWP_SHOWWINDOW = 0x0040;
         private const int GWL_STYLE = -16; // Index for retrieving window styles
         private const long WS_SYSMENU = 0x00080000L; // System Menu (Minimize/Close buttons)
         private const long WS_MINIMIZEBOX = 0x00020000L; // Minimize button
+
 
         public Form1()
         {
@@ -72,14 +74,17 @@ namespace OSKTrayApp
 
             if (oskHandle != IntPtr.Zero)
             {
-                // Move and resize the OSK window using SetWindowPos
-                Screen primaryScreen = Screen.PrimaryScreen;
-                int screenWidth = primaryScreen.Bounds.Width;
-                int screenHeight = primaryScreen.Bounds.Height;
+                // Get the working area of the screen (excluding the taskbar)
+                Rectangle workingArea = Screen.PrimaryScreen.WorkingArea;
 
-                int desiredX = 0;
-                int desiredY = screenHeight - DesiredHeight;
-                SetWindowPos(oskHandle, IntPtr.Zero, desiredX, desiredY, screenWidth, DesiredHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+                // Set the desired size and position
+                int oskHeight = 300; // Desired height for the OSK window
+                int oskWidth = workingArea.Width; // Full screen width, without covering the taskbar
+                int oskX = workingArea.X; // X position (left side of the screen)
+                int oskY = workingArea.Bottom - oskHeight; // Y position just above the taskbar
+
+                // Move and resize the OSK window
+                bool result = SetWindowPos(oskHandle, IntPtr.Zero, oskX, oskY, oskWidth, oskHeight, SWP_NOZORDER | SWP_SHOWWINDOW);
 
                 // Hide the Minimize and Close buttons
                 long style = GetWindowLong(oskHandle, GWL_STYLE);
@@ -88,7 +93,7 @@ namespace OSKTrayApp
                 SetWindowLong(oskHandle, GWL_STYLE, style);
 
                 // Force the OSK window to redraw with new styles
-                SetWindowPos(oskHandle, IntPtr.Zero, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE | 0x0027);
+                SetWindowPos(oskHandle, IntPtr.Zero, 0, 0, 0, 0, SWP_NOZORDER | SWP_SHOWWINDOW | 0x0027);
             }
         }
 
